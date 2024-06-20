@@ -10,7 +10,7 @@ a = df['RANK']
 b = df['타율']
 c = df['OPS']
 d = df['0.1WAR']
-e = df['0.3WRC+']
+e = df['0.003WRC+']
 
 a_val = a.values
 b_val = b.values
