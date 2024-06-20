@@ -1,6 +1,6 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 df=pd.read_csv('C:/Users/조진우/PycharmProjects/pythonProject/data3.csv', encoding='cp949')
