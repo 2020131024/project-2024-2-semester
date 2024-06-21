@@ -13,7 +13,7 @@ DATA 획득:
 한국프로야구의 선수별 데이터를 잘 정리한 스탯티즈 사이트에서 2023년도 타율상위20명의 DATA를 얻은 후 엑셀로 정리
 DATA: 타율, OPS, WAR, WRC+. DATA파일은 data3.csv파일로 올라가있다.
 다만 data3.csv파일을 다운로드하면 한글이 깨지므로 data3.xlsx파일을 같이 올려두었다.
-data3.xlsx파일을 파일형식-csv, 도구-웹 옵션-인코딩-문서를 다음 형식으 저장-유니코드(UTF-8)로 저장한 후 사용하면 된다.
+data3.xlsx파일을 파일형식-csv, 도구-웹 옵션-인코딩-문서를 다음 형식으로 저장-유니코드(UTF-8)로 저장한 후 사용하면 된다.
 출처 : https://statiz.sporki.com/special/?m=main
 
 MODEL:
