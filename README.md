@@ -48,3 +48,5 @@ W:-0.712
 b:85.741
 cost:24.211256
 점수:82.1347(82)
+
+![선형회귀사진1](https://github.com/user-attachments/assets/a8457912-19a9-4aee-8ce6-b925e2cd1fb6)
