@@ -74,6 +74,7 @@ cost:24.211256
 다음은 위 선형회귀모델을 사용해 나온 예측값을 matplotlib를 활용해서 시각화한 것과 pycharm에서 사용한 코드다.
 ![선형회귀사진1](https://github.com/user-attachments/assets/a8457912-19a9-4aee-8ce6-b925e2cd1fb6)
 
+# torch, matplotlib import
 import os
 import torch
 import torch.optim as optim
@@ -85,7 +86,7 @@ torch.set_num_threads(1)
 
 torch.manual_seed(1)
 
-#데이터
+# 데이터
 x_train = torch.FloatTensor([[1], [2], [3], [4]])
 y_train = torch.FloatTensor([[83], [91], [77], [85]])
 
@@ -155,6 +156,7 @@ cost: 0.026576
 다음은 위 다중선형회귀모델을 사용해 나온 예측값과 실제값을 matplotlib를 활용해서 시각화한 것과 pycharm에서 사용한 코드다.
 ![다중선형회귀사진](https://github.com/user-attachments/assets/3ddb2fd6-5c63-497f-9bc5-ba33724ba731)
 
+# torch, matplotlib import
 import os
 import torch
 import torch.optim as optim
@@ -166,7 +168,7 @@ torch.set_num_threads(1)
 
 torch.manual_seed(1)
 
-#데이터: 5개의 시험 점수와 최종 점수
+# 데이터: 5개의 시험 점수와 최종 점수
 x_train = torch.FloatTensor([[80, 88, 92, 75, 81],
                              [95, 82, 93, 71, 70],
                              [83, 91, 77, 85, 82]])
