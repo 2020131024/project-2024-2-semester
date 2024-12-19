@@ -71,8 +71,63 @@ b:85.741
 cost:24.211256
 시험점수:82.1347(82)
 
-다음은 위 선형회귀모델을 사용해 나온 예측값을 matplotlib를 활용해서 시각화한 것이다.
+다음은 위 선형회귀모델을 사용해 나온 예측값을 matplotlib를 활용해서 시각화한 것과 pycharm에서 사용한 코드다.
 ![선형회귀사진1](https://github.com/user-attachments/assets/a8457912-19a9-4aee-8ce6-b925e2cd1fb6)
+
+import os
+import torch
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+# OpenMP 충돌 방지
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+torch.set_num_threads(1)
+
+torch.manual_seed(1)
+
+#데이터
+x_train = torch.FloatTensor([[1], [2], [3], [4]])
+y_train = torch.FloatTensor([[83], [91], [77], [85]])
+
+W = torch.zeros(1, requires_grad=True)
+b = torch.zeros(1, requires_grad=True)
+
+# Optimizer
+optimizer = optim.SGD([W, b], lr=0.01)
+
+nb_epochs = 1999
+for epoch in range(nb_epochs + 1):
+    # H(x)
+    hypothesis = x_train * W + b
+
+    # cost
+    cost = torch.mean((hypothesis - y_train) ** 2)
+
+    # cost로 H(x) 개선
+    optimizer.zero_grad()
+    cost.backward()
+    optimizer.step()
+
+    # 100번째마다 print
+    if epoch % 100 == 0:
+        print(f'Epoch {epoch:4d}/{nb_epochs} W: {W.item():.3f}, b: {b.item():.3f}, Cost: {cost.item():.6f}')
+
+# 5번째 시험결과 예측
+with torch.no_grad():
+    prediction = W * 5 + b
+    print(f"Predicted score for exam 5: {prediction.item():.2f}")
+
+# 그래프
+plt.scatter(x_train.numpy(), y_train.numpy(), label='Train Data', color='blue')
+x_line = torch.linspace(1, 5, 100).view(-1, 1)
+y_line = W.detach() * x_line + b.detach()
+plt.plot(x_line.numpy(), y_line.numpy(), label='Regression Line', color='red')
+plt.title("Linear Regression")
+plt.xlabel("Exam Number")
+plt.ylabel("Score")
+plt.legend()
+plt.grid()
+plt.show()
 
 2.다중선형회귀(multivariable linear regression):
 3명의 학생의 5번의 시험점수와 그것을 토대로 최종점수가 나와있다. 4번 째 학생의 5번의 시험점수가 주어졌을 때 4번 째 학생의 최종점수를 예측하는 다중 선형 회귀 분석(multivariable linear regression)을 실행하고 시각화 그래프를 그린다.
@@ -97,5 +152,72 @@ cost: 0.026576
 최종점수:100.60
 실제 점수와 0.6점 차이남을 알 수 있다.
 
-다음은 위 다중선형회귀모델을 사용해 나온 예측값과 실제값을 matplotlib를 활용해서 시각화한 것이다.
+다음은 위 다중선형회귀모델을 사용해 나온 예측값과 실제값을 matplotlib를 활용해서 시각화한 것과 pycharm에서 사용한 코드다.
 ![다중선형회귀사진](https://github.com/user-attachments/assets/3ddb2fd6-5c63-497f-9bc5-ba33724ba731)
+
+import os
+import torch
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+# OpenMP 충돌 방지
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+torch.set_num_threads(1)
+
+torch.manual_seed(1)
+
+#데이터: 5개의 시험 점수와 최종 점수
+x_train = torch.FloatTensor([[80, 88, 92, 75, 81],
+                             [95, 82, 93, 71, 70],
+                             [83, 91, 77, 85, 82]])
+y_train = torch.FloatTensor([[99], [96], [100]])
+
+W = torch.zeros((5, 1), requires_grad=True)
+b = torch.zeros(1, requires_grad=True)
+
+# Optimizer
+optimizer = optim.SGD([W, b], lr=1e-5)
+
+nb_epochs = 999
+for epoch in range(nb_epochs + 1):
+    # H(x)
+    hypothesis = x_train.matmul(W) + b
+    cost = torch.mean((hypothesis - y_train) ** 2)
+
+    # Cost로 H(x) 개선
+    optimizer.zero_grad()
+    cost.backward()
+    optimizer.step()
+
+    # 100번마다 print
+    if epoch % 100 == 0:
+        print(f'Epoch {epoch:4d}/{nb_epochs} Cost: {cost.item():.6f}')
+
+# 4번째 학생의 최종점수 예측
+with torch.no_grad():
+    predictions = x_train.matmul(W) + b
+    new_input = torch.FloatTensor([[90, 84, 92, 79, 81]])
+    new_prediction = new_input.matmul(W) + b
+    print(f"Predicted score for new input {new_input.squeeze().tolist()}: {new_prediction.item():.2f}")
+
+    print(f"Final Weights (W): \n{W.numpy()}")
+    print(f"Final Bias (b): {b.item():.2f}")
+    print(f"Predicted score for new input {new_input.squeeze().tolist()}: {new_prediction.item():.2f}")
+  
+# 그래프
+plt.figure(figsize=(8, 6))
+
+# 실제값 vs 예측값
+plt.scatter(range(len(y_train)), y_train.numpy(), label='Actual Values', color='blue')
+plt.scatter(range(len(predictions)), predictions.numpy(), label='Predicted Values', color='red')
+
+
+plt.scatter([len(y_train)], [new_prediction.item()], label='New Prediction', color='green', marker='X', s=100)
+
+# 그래프
+plt.title("Actual vs Predicted Values in Multiple Linear Regression")
+plt.xlabel("Sample Index")
+plt.ylabel("Final Score")
+plt.legend()
+plt.grid()
+plt.show()
